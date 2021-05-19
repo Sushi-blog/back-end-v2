@@ -1,6 +1,5 @@
 package com.sushiblog.backendv2.config;
 
-import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Profile;
 import redis.embedded.RedisServer;
@@ -14,7 +13,7 @@ public class EmbeddedRedisConfig {
 
     private final RedisServer redisServer;
 
-    public EmbeddedRedisConfig(@Value("${spring.redis.port}") int redisPort) {
+    public EmbeddedRedisConfig() {
         this.redisServer = RedisServer.builder()
                 .setting("maxheap 128M")
                 .build();
