@@ -22,10 +22,8 @@ public class AuthServiceImpl implements AuthService {
     public AccessTokenResponse signIn(SignInRequest signInRequest) {
         return userRepository.findById(signInRequest.getEmail())
                 .filter(user -> passwordEncoder.matches(signInRequest.getPassword(), user.getPassword()))
-                .map(User::getEmail)
-                .map(u -> {
-                    return new AccessTokenResponse(jwtTokenProvider.generateAccessToken(signInRequest.getEmail()));
-                })
+                .map(User::getEmail) //다음 맵으로 email저장해서 넘겨줌.
+                .map(u -> new AccessTokenResponse(jwtTokenProvider.generateAccessToken(u))) //map을 쓰면 그 자체로 return하는 것이기 때문에 return을 안써도 됨.
                 .orElseThrow(UserNotFoundException::new);
     }
 
