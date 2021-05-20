@@ -21,4 +21,10 @@ public class AccountController {
         accountService.signUp(request);
     }
 
+    @PutMapping
+    @ResponseStatus(HttpStatus.NO_CONTENT)
+    public void update(@RequestParam String nickname) {
+        accountService.updateNickname(nickname);
+    }
+
 }

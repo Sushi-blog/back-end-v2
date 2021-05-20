@@ -5,6 +5,8 @@ import com.sushiblog.backendv2.entity.category.CategoryRepository;
 import com.sushiblog.backendv2.entity.user.User;
 import com.sushiblog.backendv2.entity.user.UserRepository;
 import com.sushiblog.backendv2.error.EmailAlreadyExistsException;
+import com.sushiblog.backendv2.error.UserNotFoundException;
+import com.sushiblog.backendv2.security.auth.AuthenticationFacade;
 import com.sushiblog.backendv2.usecase.dto.request.SignUpRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -16,7 +18,9 @@ public class AccountServiceImpl implements AccountService {
 
     private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
+
     private final PasswordEncoder passwordEncoder;
+    private final AuthenticationFacade authenticationFacade;
 
     @Override
     public void signUp(SignUpRequest signUpRequest) {
@@ -38,6 +42,15 @@ public class AccountServiceImpl implements AccountService {
                     .build();
             categoryRepository.save(category);
         }
+    }
+
+    @Override
+    public void updateNickname(String nickname) {
+        User user = userRepository.findById(authenticationFacade.getUserEmail())
+                .orElseThrow(UserNotFoundException::new);
+
+        user.updateNickName(nickname);
+        userRepository.save(user);
     }
 
 }
