@@ -1,6 +1,6 @@
 package com.sushiblog.backendv2.presenter;
 
-import com.sushiblog.backendv2.usecase.dto.SignUpRequest;
+import com.sushiblog.backendv2.usecase.dto.request.SignUpRequest;
 import com.sushiblog.backendv2.usecase.service.account.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
