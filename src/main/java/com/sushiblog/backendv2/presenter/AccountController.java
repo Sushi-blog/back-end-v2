@@ -3,10 +3,12 @@ package com.sushiblog.backendv2.presenter;
 import com.sushiblog.backendv2.usecase.dto.request.SignUpRequest;
 import com.sushiblog.backendv2.usecase.service.account.AccountService;
 import lombok.RequiredArgsConstructor;
+import org.hibernate.validator.constraints.Length;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
+import javax.validation.constraints.NotBlank;
 
 @RequiredArgsConstructor
 @RequestMapping("/sushi/account")
@@ -23,7 +25,7 @@ public class AccountController {
 
     @PutMapping
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void update(@RequestParam String nickname) {
+    public void update(@RequestParam @NotBlank @Length(max = 10) String nickname) {
         accountService.updateNickname(nickname);
     }
 
