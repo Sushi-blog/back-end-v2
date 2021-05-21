@@ -39,7 +39,7 @@ public class BasicTestSupport {
                 User.builder()
                         .nickname(name)
                         .email(email)
-                        .password(passwordEncoder.encode("1234"))
+                        .password(passwordEncoder.encode("password1234"))
                         .build()
         );
     }
