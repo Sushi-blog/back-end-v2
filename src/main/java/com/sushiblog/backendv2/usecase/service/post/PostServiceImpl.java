@@ -6,6 +6,7 @@ import com.sushiblog.backendv2.entity.post.Post;
 import com.sushiblog.backendv2.entity.post.PostRepository;
 import com.sushiblog.backendv2.entity.user.User;
 import com.sushiblog.backendv2.error.CategoryNotFoundException;
+import com.sushiblog.backendv2.error.ImageNotFoundException;
 import com.sushiblog.backendv2.error.NotAccessibleException;
 import com.sushiblog.backendv2.error.PostNotFoundException;
 import com.sushiblog.backendv2.security.auth.AuthenticationFacade;
@@ -14,13 +15,16 @@ import com.sushiblog.backendv2.usecase.dto.response.PostDetailResponse;
 import com.sushiblog.backendv2.usecase.dto.response.PostResponse;
 import com.sushiblog.backendv2.usecase.dto.response.PostsResponse;
 import lombok.RequiredArgsConstructor;
+import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
+import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -57,7 +61,7 @@ public class PostServiceImpl implements PostService {
                         .category(category)
                         .title(request.getTitle())
                         .content(request.getContent())
-                        .filePath(filePath)
+                        .imagePath(filePath)
                         .build()
         );
         if (file != null) {
@@ -143,8 +147,21 @@ public class PostServiceImpl implements PostService {
                 .createdAt(post.getCreatedAt())
                 .category(post.getCategory().getName())
                 .content(post.getContent())
-                .filePath(post.getFilePath())
+                .filePath(post.getImagePath())
                 .build();
+    }
+
+    @Override
+    public void deletePost(Long id) {
+        User user = authenticationFacade.checkAuth();
+        Post post = postRepository.findById(id)
+                .orElseThrow(PostNotFoundException::new);
+
+        if(!post.getUser().equals(user)) {
+            throw new NotAccessibleException();
+        }
+        postRepository.delete(post);
+        deleteImage(id);
     }
 
 }

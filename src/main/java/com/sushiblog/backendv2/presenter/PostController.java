@@ -5,7 +5,6 @@ import com.sushiblog.backendv2.usecase.dto.response.PostDetailResponse;
 import com.sushiblog.backendv2.usecase.dto.response.PostsResponse;
 import com.sushiblog.backendv2.usecase.service.post.PostService;
 import lombok.RequiredArgsConstructor;
-import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -44,6 +43,11 @@ public class PostController {
     @GetMapping("/details")
     public PostDetailResponse getPost(@RequestParam Long id) {
         return postService.getPost(id);
+    }
+
+    @DeleteMapping
+    public void deletePost(@RequestParam Long id) {
+        postService.deletePost(id);
     }
 
 }

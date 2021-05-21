@@ -12,4 +12,8 @@ public interface PostService {
     void updatePost(Long id, PostRequest request, MultipartFile file) throws IOException;
     PostsResponse getPosts(String email, Long categoryId);
     PostDetailResponse getPost(Long id);
+    void deletePost(Long id);
+
+    byte[] getImages(String path) throws IOException;
+    void deleteFile(Long id);
 }
