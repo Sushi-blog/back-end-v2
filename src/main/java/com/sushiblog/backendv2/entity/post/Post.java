@@ -3,6 +3,7 @@ package com.sushiblog.backendv2.entity.post;
 import com.fasterxml.jackson.annotation.JsonBackReference;
 import com.sushiblog.backendv2.entity.category.Category;
 import com.sushiblog.backendv2.entity.user.User;
+import com.sushiblog.backendv2.usecase.dto.request.PostRequest;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -47,5 +48,12 @@ public class Post {
     @JsonBackReference
     @JoinColumn(name = "user_id")
     private User user;
+
+    public void update(PostRequest request, String filePath) {
+        this.title = request.getTitle();
+        this.content = request.getContent();
+        this.filePath = filePath;
+
+    }
 
 }
