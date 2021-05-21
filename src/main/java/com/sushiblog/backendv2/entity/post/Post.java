@@ -33,6 +33,7 @@ public class Post {
     private String content;
 
     @CreatedDate
+    @Column(nullable = false)
     @DateTimeFormat(pattern = "yyyy-MM-dd`T`hh:mm:ss") // 띄어쓰기로 인해서 값이 잘못 넘어올까봐 T를 쓰는데, T를 포맷에서 그냥 쓸수가 없어서 ``로 감싸준다.
     private LocalDateTime createdAt;
 
