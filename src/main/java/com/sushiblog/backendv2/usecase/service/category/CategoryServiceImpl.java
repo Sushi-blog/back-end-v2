@@ -22,15 +22,13 @@ import java.util.List;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
-    private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
 
     private final AuthenticationFacade authenticationFacade;
 
     @Override
     public void updateName(UpdateCategoryNameRequest request) {
-        User user = userRepository.findById(authenticationFacade.getUserEmail())
-            .orElseThrow(UserNotFoundException::new);
+        User user = authenticationFacade.checkAuth();
 
         Category category = categoryRepository.findById(request.getId())
                 .orElseThrow(CategoryNotFoundException::new);
@@ -45,8 +43,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoriesResponse getCategories(String email) {
-        User user = userRepository.findById(email)
-                .orElseThrow(UserNotFoundException::new);
+        User user = authenticationFacade.checkAuth();
+
         List<Category> categoryList = user.getCategories();
         List<Categories> categories = new ArrayList<>();
 

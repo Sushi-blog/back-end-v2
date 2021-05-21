@@ -30,6 +30,7 @@ public class AccountServiceImpl implements AccountService {
                 .ifPresent(user -> {
                     throw new EmailAlreadyExistsException();
                 });
+
         User user = User.builder()
                 .email(signUpRequest.getEmail())
                 .password(passwordEncoder.encode(signUpRequest.getPassword()))
@@ -48,8 +49,7 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void updateNickname(String nickname) {
-        User user = userRepository.findById(authenticationFacade.getUserEmail())
-                .orElseThrow(UserNotFoundException::new);
+        User user = authenticationFacade.checkAuth();
 
         user.updateNickName(nickname);
         userRepository.save(user);
@@ -57,19 +57,13 @@ public class AccountServiceImpl implements AccountService {
 
     @Override
     public void deleteUser() {
-        if(!authenticationFacade.isLogin()) {
-            throw new NotAccessibleException();
-        }
-
-        User user = userRepository.findById(authenticationFacade.getUserEmail())
-                .orElseThrow(UserNotFoundException::new);
+        User user = authenticationFacade.checkAuth();
         userRepository.delete(user);
     }
 
     @Override
     public ProfileInfoResponse getProfile(String email) {
-        User user = userRepository.findById(email)
-                .orElseThrow(UserNotFoundException::new);
+        User user = authenticationFacade.checkAuth();
 
         return ProfileInfoResponse.builder()
                 .email(user.getEmail())
