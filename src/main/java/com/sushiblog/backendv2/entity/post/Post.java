@@ -37,7 +37,7 @@ public class Post {
     private LocalDateTime createdAt;
 
     @Column(length = 100)
-    private String filePath;
+    private String imagePath;
 
     @ManyToOne
     @JsonBackReference
@@ -52,7 +52,7 @@ public class Post {
     public void update(PostRequest request, String filePath) {
         this.title = request.getTitle();
         this.content = request.getContent();
-        this.filePath = filePath;
+        this.imagePath = filePath;
 
     }
 
