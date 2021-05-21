@@ -7,6 +7,7 @@ import com.sushiblog.backendv2.entity.post.Post;
 import com.sushiblog.backendv2.entity.post.PostRepository;
 import com.sushiblog.backendv2.entity.user.User;
 import com.sushiblog.backendv2.entity.user.UserRepository;
+import com.sushiblog.backendv2.error.UserNotFoundException;
 import com.sushiblog.backendv2.usecase.dto.request.PostRequest;
 import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
@@ -141,6 +142,24 @@ public class PostControllerTest {
                 .content(new ObjectMapper().writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isOk());
+    }
+
+    @Test
+    public void 게시글목록보기() throws Exception {
+        User user = userRepository.findById("201413lsy@dsm.hs.kr").orElseThrow(UserNotFoundException::new);
+
+        mvc.perform(get("/sushi/blog/"+user.getEmail())
+                .param("category-id",category.getId().toString()))
+                .andExpect(status().isOk()).andDo(print());
+    }
+
+    @Test
+    public void 게시글상세보기() throws Exception {
+        User user = userRepository.findById("201413lsy@dsm.hs.kr").orElseThrow(UserNotFoundException::new);
+
+        mvc.perform(get("/sushi/blog/details")
+                .param("id",post.getId().toString())).andDo(print())
+                .andExpect(status().isOk()).andDo(print());
     }
 
 }
