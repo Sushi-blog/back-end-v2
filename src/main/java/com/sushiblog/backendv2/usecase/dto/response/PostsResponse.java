@@ -1,16 +1,14 @@
 package com.sushiblog.backendv2.usecase.dto.response;
 
-import lombok.Builder;
+import lombok.AllArgsConstructor;
 import lombok.Getter;
 
 import java.util.List;
 
 @Getter
-@Builder
+@AllArgsConstructor
 public class PostsResponse {
 
     private List<PostResponse> posts;
-
-    private int totalPages;
 
 }

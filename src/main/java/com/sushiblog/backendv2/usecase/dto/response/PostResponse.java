@@ -4,7 +4,7 @@ import lombok.Builder;
 import lombok.Getter;
 import org.springframework.format.annotation.DateTimeFormat;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Getter
 @Builder
@@ -17,6 +17,6 @@ public class PostResponse {
     private String title;
 
     @DateTimeFormat(pattern = "yyyy-MM-dd")
-    private LocalDate createdAt;
+    private LocalDateTime createdAt;
 
 }
