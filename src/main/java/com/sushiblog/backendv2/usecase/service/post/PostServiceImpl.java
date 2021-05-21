@@ -164,4 +164,32 @@ public class PostServiceImpl implements PostService {
         deleteImage(id);
     }
 
+    @Override
+    public byte[] getImages(String path) throws IOException {
+        File file = new File(path);
+        if(!file.exists()) throw new ImageNotFoundException();
+
+        InputStream inputStream = new FileInputStream(file);
+
+        return IOUtils.toByteArray(inputStream);
+    }
+
+    @Override
+    public void deleteFile(Long id) {
+        deleteImage(id);
+    }
+
+    private void deleteImage(Long postId) {
+        User user = authenticationFacade.checkAuth();
+        Post post = postRepository.findById(postId)
+                .orElseThrow(PostNotFoundException::new);
+
+        if(post.getUser().equals(user)) {
+            File file = new File(post.getImagePath());
+            file.delete();
+        } else {
+            throw new NotAccessibleException();
+        }
+    }
+
 }
