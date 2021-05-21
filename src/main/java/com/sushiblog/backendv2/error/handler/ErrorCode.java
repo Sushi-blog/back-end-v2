@@ -10,6 +10,7 @@ import lombok.Getter;
 public enum ErrorCode { //대충 쓰면 나중에 오류날 때 어떤 오류인지 확인하기 어렵다.
     FORMAT_INCORRECT(400,"String Format Incorrect"),
     INVALID_TOKEN(400, "Invalid Token"), //유효하지 않은
+    INVALID_NICKNAME(400, "Invalid Nickname"),
 
     NOT_ACCESSIBLE(401, "Check The Token"),
 
