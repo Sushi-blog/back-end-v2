@@ -3,8 +3,11 @@ package com.sushiblog.backendv2.usecase.service.category;
 import com.sushiblog.backendv2.entity.category.Category;
 import com.sushiblog.backendv2.entity.category.CategoryRepository;
 import com.sushiblog.backendv2.entity.user.User;
+import com.sushiblog.backendv2.entity.user.UserRepository;
 import com.sushiblog.backendv2.error.CategoryNotFoundException;
+import com.sushiblog.backendv2.error.IncorrectNicknameFormatException;
 import com.sushiblog.backendv2.error.NotAccessibleException;
+import com.sushiblog.backendv2.error.UserNotFoundException;
 import com.sushiblog.backendv2.security.auth.AuthenticationFacade;
 import com.sushiblog.backendv2.usecase.dto.request.UpdateCategoryNameRequest;
 import com.sushiblog.backendv2.usecase.dto.response.Categories;
@@ -19,6 +22,7 @@ import java.util.List;
 @Service
 public class CategoryServiceImpl implements CategoryService {
 
+    private final UserRepository userRepository;
     private final CategoryRepository categoryRepository;
 
     private final AuthenticationFacade authenticationFacade;
@@ -33,6 +37,9 @@ public class CategoryServiceImpl implements CategoryService {
         if(!category.getUser().equals(user)) {
             throw new NotAccessibleException();
         }
+        if (request.getName().trim().isEmpty() || request.getName().length() > 15) {
+            throw new IncorrectNicknameFormatException();
+        }
 
         category.updateName(request.getName());
         categoryRepository.save(category);
@@ -40,7 +47,8 @@ public class CategoryServiceImpl implements CategoryService {
 
     @Override
     public CategoriesResponse getCategories(String email) {
-        User user = authenticationFacade.checkAuth();
+        User user = userRepository.findById(email)
+                .orElseThrow(UserNotFoundException::new);
 
         List<Category> categoryList = user.getCategories();
         List<Categories> categories = new ArrayList<>();
