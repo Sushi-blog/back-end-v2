@@ -1,6 +1,7 @@
 package com.sushiblog.backendv2.presenter;
 
 import com.sushiblog.backendv2.usecase.dto.request.PostRequest;
+import com.sushiblog.backendv2.usecase.dto.response.PostDetailResponse;
 import com.sushiblog.backendv2.usecase.dto.response.PostsResponse;
 import com.sushiblog.backendv2.usecase.service.post.PostService;
 import lombok.RequiredArgsConstructor;
@@ -38,6 +39,11 @@ public class PostController {
     public PostsResponse getPosts(@PathVariable String email,
                                   @RequestParam(name = "category-id", required = false) Long categoryId) {
         return postService.getPosts(email, categoryId);
+    }
+
+    @GetMapping("/details")
+    public PostDetailResponse getPost(@RequestParam Long id) {
+        return postService.getPost(id);
     }
 
 }

@@ -10,6 +10,7 @@ import com.sushiblog.backendv2.error.NotAccessibleException;
 import com.sushiblog.backendv2.error.PostNotFoundException;
 import com.sushiblog.backendv2.security.auth.AuthenticationFacade;
 import com.sushiblog.backendv2.usecase.dto.request.PostRequest;
+import com.sushiblog.backendv2.usecase.dto.response.PostDetailResponse;
 import com.sushiblog.backendv2.usecase.dto.response.PostResponse;
 import com.sushiblog.backendv2.usecase.dto.response.PostsResponse;
 import lombok.RequiredArgsConstructor;
@@ -131,5 +132,19 @@ public class PostServiceImpl implements PostService {
         return new PostsResponse(postResponses);
     }
 
+    @Override
+    public PostDetailResponse getPost(Long id) {
+        Post post = postRepository.findById(id)
+                .orElseThrow(PostNotFoundException::new);
+
+        return PostDetailResponse.builder()
+                .writer(post.getUser().getNickname())
+                .title(post.getTitle())
+                .createdAt(post.getCreatedAt())
+                .category(post.getCategory().getName())
+                .content(post.getContent())
+                .filePath(post.getFilePath())
+                .build();
+    }
 
 }

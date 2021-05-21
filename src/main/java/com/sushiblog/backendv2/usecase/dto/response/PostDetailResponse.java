@@ -9,7 +9,7 @@ import java.time.LocalDateTime;
 @Builder
 public class PostDetailResponse {
 
-    private Long categoryId;
+    private String category;
 
     private String writer;
 
