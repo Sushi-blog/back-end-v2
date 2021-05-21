@@ -84,6 +84,9 @@ public class PostServiceImpl implements PostService {
 
         Post post = postRepository.findById(id)
                 .orElseThrow(PostNotFoundException::new);
+        if(post.getImagePath()!=null) {
+            deleteImage(post.getId());
+        }
         post.update(request, filePath);
 
         if (file != null) {
