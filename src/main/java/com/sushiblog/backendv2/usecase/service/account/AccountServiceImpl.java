@@ -5,12 +5,14 @@ import com.sushiblog.backendv2.entity.category.CategoryRepository;
 import com.sushiblog.backendv2.entity.user.User;
 import com.sushiblog.backendv2.entity.user.UserRepository;
 import com.sushiblog.backendv2.error.EmailAlreadyExistsException;
+import com.sushiblog.backendv2.error.NotAccessibleException;
 import com.sushiblog.backendv2.error.UserNotFoundException;
 import com.sushiblog.backendv2.security.auth.AuthenticationFacade;
 import com.sushiblog.backendv2.usecase.dto.request.SignUpRequest;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
+import org.springframework.web.client.HttpClientErrorException;
 
 @RequiredArgsConstructor
 @Service
@@ -51,6 +53,17 @@ public class AccountServiceImpl implements AccountService {
 
         user.updateNickName(nickname);
         userRepository.save(user);
+    }
+
+    @Override
+    public void deleteUser() {
+        if(!authenticationFacade.isLogin()) {
+            throw new NotAccessibleException();
+        }
+
+        User user = userRepository.findById(authenticationFacade.getUserEmail())
+                .orElseThrow(UserNotFoundException::new);
+        userRepository.delete(user);
     }
 
 }
