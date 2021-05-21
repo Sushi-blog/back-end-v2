@@ -24,7 +24,7 @@ public class PostController {
         postService.writePost(request, file);
     }
 
-    @PutMapping("/details/{email}")
+    @PutMapping("/details")
     public void updatePost(@RequestParam long id,
                            @RequestBody PostRequest request,
                            @RequestParam(required = false) MultipartFile file) throws IOException {
