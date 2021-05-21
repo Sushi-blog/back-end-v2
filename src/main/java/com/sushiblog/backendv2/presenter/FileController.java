@@ -18,6 +18,8 @@ public class FileController {
     public byte[] getImages(String path) throws IOException {
         return postService.getImages(path);
     }
+
+    @DeleteMapping
     public void deleteFile(Long id) {
         postService.deleteFile(id);
     }

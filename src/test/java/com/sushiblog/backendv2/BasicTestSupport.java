@@ -23,10 +23,13 @@ public class BasicTestSupport {
     private UserRepository userRepository;
 
     @Autowired
-    private PasswordEncoder passwordEncoder;
+    private PostRepository postRepository;
 
     @Autowired
-    private PostRepository postRepository;
+    private CategoryRepository categoryRepository;
+
+    @Autowired
+    private PasswordEncoder passwordEncoder;
 
     public MockMvc setup() {
         return MockMvcBuilders
@@ -40,6 +43,15 @@ public class BasicTestSupport {
                         .nickname(name)
                         .email(email)
                         .password(passwordEncoder.encode("password1234"))
+                        .build()
+        );
+    }
+
+    public Category createCategory(User user, String categoryName) {
+        return categoryRepository.save(
+                Category.builder()
+                        .user(user)
+                        .name(categoryName)
                         .build()
         );
     }

@@ -5,10 +5,8 @@ import com.sushiblog.backendv2.entity.category.CategoryRepository;
 import com.sushiblog.backendv2.entity.post.Post;
 import com.sushiblog.backendv2.entity.post.PostRepository;
 import com.sushiblog.backendv2.entity.user.User;
-import com.sushiblog.backendv2.error.CategoryNotFoundException;
-import com.sushiblog.backendv2.error.ImageNotFoundException;
-import com.sushiblog.backendv2.error.NotAccessibleException;
-import com.sushiblog.backendv2.error.PostNotFoundException;
+import com.sushiblog.backendv2.entity.user.UserRepository;
+import com.sushiblog.backendv2.error.*;
 import com.sushiblog.backendv2.security.auth.AuthenticationFacade;
 import com.sushiblog.backendv2.usecase.dto.request.PostRequest;
 import com.sushiblog.backendv2.usecase.dto.response.PostDetailResponse;
@@ -17,7 +15,6 @@ import com.sushiblog.backendv2.usecase.dto.response.PostsResponse;
 import lombok.RequiredArgsConstructor;
 import org.apache.commons.io.IOUtils;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
@@ -34,6 +31,7 @@ public class PostServiceImpl implements PostService {
 
     private final CategoryRepository categoryRepository;
     private final PostRepository postRepository;
+    private final UserRepository userRepository;
 
     private final AuthenticationFacade authenticationFacade;
 
@@ -96,9 +94,10 @@ public class PostServiceImpl implements PostService {
 
     @Override
     public PostsResponse getPosts(String email, Long categoryId) {
-        User user = authenticationFacade.checkAuth();
+        User user = userRepository.findById(email)
+                .orElseThrow(UserNotFoundException::new);
 
-        if (categoryId == null) {
+        if (categoryId == 0) {
             List<PostResponse> postResponses = new ArrayList<>();
             for(Post post : user.getPosts()) {
                 postResponses.add(

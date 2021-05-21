@@ -6,6 +6,7 @@ import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import javax.validation.constraints.NotBlank;
+import javax.validation.constraints.NotNull;
 
 @Getter
 @Builder
@@ -19,7 +20,7 @@ public class PostRequest {
     @NotBlank
     private String content;
 
-    @NotBlank
+    @NotNull
     private Long categoryId;
 
 }
