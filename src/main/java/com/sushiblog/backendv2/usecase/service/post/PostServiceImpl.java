@@ -159,8 +159,11 @@ public class PostServiceImpl implements PostService {
         if(!post.getUser().equals(user)) {
             throw new NotAccessibleException();
         }
+
+        if(post.getImagePath() != null) {
+            deleteImage(id);
+        }
         postRepository.delete(post);
-        deleteImage(id);
     }
 
     @Override
