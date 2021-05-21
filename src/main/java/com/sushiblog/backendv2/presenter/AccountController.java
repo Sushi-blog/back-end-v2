@@ -1,6 +1,7 @@
 package com.sushiblog.backendv2.presenter;
 
 import com.sushiblog.backendv2.usecase.dto.request.SignUpRequest;
+import com.sushiblog.backendv2.usecase.dto.response.ProfileInfoResponse;
 import com.sushiblog.backendv2.usecase.service.account.AccountService;
 import lombok.RequiredArgsConstructor;
 import org.hibernate.validator.constraints.Length;
@@ -32,6 +33,11 @@ public class AccountController {
     @DeleteMapping
     public void deleteUser() {
         accountService.deleteUser();
+    }
+
+    @GetMapping
+    public ProfileInfoResponse getProfile(@RequestParam String email) {
+        return accountService.getProfile(email);
     }
 
 }

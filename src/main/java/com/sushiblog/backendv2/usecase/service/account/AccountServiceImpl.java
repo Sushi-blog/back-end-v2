@@ -9,10 +9,10 @@ import com.sushiblog.backendv2.error.NotAccessibleException;
 import com.sushiblog.backendv2.error.UserNotFoundException;
 import com.sushiblog.backendv2.security.auth.AuthenticationFacade;
 import com.sushiblog.backendv2.usecase.dto.request.SignUpRequest;
+import com.sushiblog.backendv2.usecase.dto.response.ProfileInfoResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.web.client.HttpClientErrorException;
 
 @RequiredArgsConstructor
 @Service
@@ -64,6 +64,17 @@ public class AccountServiceImpl implements AccountService {
         User user = userRepository.findById(authenticationFacade.getUserEmail())
                 .orElseThrow(UserNotFoundException::new);
         userRepository.delete(user);
+    }
+
+    @Override
+    public ProfileInfoResponse getProfile(String email) {
+        User user = userRepository.findById(email)
+                .orElseThrow(UserNotFoundException::new);
+
+        return ProfileInfoResponse.builder()
+                .email(user.getEmail())
+                .nickname(user.getNickname())
+                .build();
     }
 
 }
