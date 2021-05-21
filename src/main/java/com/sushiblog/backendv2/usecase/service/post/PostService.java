@@ -8,6 +8,6 @@ import java.io.IOException;
 
 public interface PostService {
     void writePost(PostRequest request, MultipartFile file) throws IOException;
-    void updatePost(long id, PostRequest request, MultipartFile file) throws IOException;
+    void updatePost(Long id, PostRequest request, MultipartFile file) throws IOException;
     PostsResponse getPosts(String email, Long categoryId);
 }

@@ -65,7 +65,7 @@ public class PostServiceImpl implements PostService {
     }
 
     @Override
-    public void updatePost(long id, PostRequest request, MultipartFile file) throws IOException {
+    public void updatePost(Long id, PostRequest request, MultipartFile file) throws IOException {
         User user = authenticationFacade.checkAuth();
         Category category = categoryRepository.findById(request.getCategoryId())
                 .orElseThrow(CategoryNotFoundException::new);
