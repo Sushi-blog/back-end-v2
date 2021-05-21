@@ -5,8 +5,6 @@ import com.sushiblog.backendv2.entity.category.CategoryRepository;
 import com.sushiblog.backendv2.entity.user.User;
 import com.sushiblog.backendv2.entity.user.UserRepository;
 import com.sushiblog.backendv2.error.EmailAlreadyExistsException;
-import com.sushiblog.backendv2.error.NotAccessibleException;
-import com.sushiblog.backendv2.error.UserNotFoundException;
 import com.sushiblog.backendv2.security.auth.AuthenticationFacade;
 import com.sushiblog.backendv2.usecase.dto.request.SignUpRequest;
 import com.sushiblog.backendv2.usecase.dto.response.ProfileInfoResponse;

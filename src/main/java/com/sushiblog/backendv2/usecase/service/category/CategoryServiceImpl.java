@@ -3,16 +3,13 @@ package com.sushiblog.backendv2.usecase.service.category;
 import com.sushiblog.backendv2.entity.category.Category;
 import com.sushiblog.backendv2.entity.category.CategoryRepository;
 import com.sushiblog.backendv2.entity.user.User;
-import com.sushiblog.backendv2.entity.user.UserRepository;
 import com.sushiblog.backendv2.error.CategoryNotFoundException;
 import com.sushiblog.backendv2.error.NotAccessibleException;
-import com.sushiblog.backendv2.error.UserNotFoundException;
 import com.sushiblog.backendv2.security.auth.AuthenticationFacade;
 import com.sushiblog.backendv2.usecase.dto.request.UpdateCategoryNameRequest;
 import com.sushiblog.backendv2.usecase.dto.response.Categories;
 import com.sushiblog.backendv2.usecase.dto.response.CategoriesResponse;
 import lombok.RequiredArgsConstructor;
-import org.hibernate.stat.internal.CategorizedStatistics;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
