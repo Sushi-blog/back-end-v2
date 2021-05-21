@@ -15,4 +15,8 @@ public class AuthenticationFacade { //인증 객체를 쉽게 가져오려고 �
         return this.getAuthentication().getName(); //여기서 name은 PK를 말한다.
     }
 
+    public boolean isLogin() {
+        return getAuthentication() != null;
+    }
+
 }
