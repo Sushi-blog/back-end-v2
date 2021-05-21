@@ -10,13 +10,18 @@ import com.sushiblog.backendv2.error.NotAccessibleException;
 import com.sushiblog.backendv2.error.PostNotFoundException;
 import com.sushiblog.backendv2.security.auth.AuthenticationFacade;
 import com.sushiblog.backendv2.usecase.dto.request.PostRequest;
+import com.sushiblog.backendv2.usecase.dto.response.PostResponse;
+import com.sushiblog.backendv2.usecase.dto.response.PostsResponse;
 import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.Pageable;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 
 @RequiredArgsConstructor
 @Service
@@ -82,6 +87,48 @@ public class PostServiceImpl implements PostService {
             file.transferTo(new File(filePath));
         }
         postRepository.save(post);
+    }
+
+    @Override
+    public PostsResponse getPosts(String email, Long categoryId) {
+        User user = authenticationFacade.checkAuth();
+
+        if (categoryId == null) {
+            List<PostResponse> postResponses = new ArrayList<>();
+            for(Post post : user.getPosts()) {
+                postResponses.add(
+                        PostResponse.builder()
+                                .id(post.getId())
+                                .category(post.getCategory().getName())
+                                .title(post.getTitle())
+                                .createdAt(post.getCreatedAt())
+                                .build()
+                );
+            }
+            return new PostsResponse(postResponses);
+        }
+
+        Category category = categoryRepository.findById(categoryId)
+                .orElseThrow(CategoryNotFoundException::new);
+        List<Post> posts = new ArrayList<>();
+        List<PostResponse> postResponses = new ArrayList<>();
+
+        if(category.getUser().equals(user)) {
+            posts = category.getPosts();
+        }
+
+        for(Post post : posts) {
+            postResponses.add(
+                    PostResponse.builder()
+                            .id(post.getId())
+                            .category(post.getCategory().getName())
+                            .title(post.getTitle())
+                            .createdAt(post.getCreatedAt())
+                            .build()
+            );
+        }
+
+        return new PostsResponse(postResponses);
     }
 
 

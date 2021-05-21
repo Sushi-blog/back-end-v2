@@ -1,8 +1,10 @@
 package com.sushiblog.backendv2.presenter;
 
 import com.sushiblog.backendv2.usecase.dto.request.PostRequest;
+import com.sushiblog.backendv2.usecase.dto.response.PostsResponse;
 import com.sushiblog.backendv2.usecase.service.post.PostService;
 import lombok.RequiredArgsConstructor;
+import org.springframework.data.domain.Pageable;
 import org.springframework.http.HttpStatus;
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
@@ -30,6 +32,12 @@ public class PostController {
                            @RequestParam(required = false) MultipartFile file) throws IOException {
         postService.updatePost(id, request, file);
 
+    }
+
+    @GetMapping("/{email}")
+    public PostsResponse getPosts(@PathVariable String email,
+                                  @RequestParam(name = "category-id", required = false) Long categoryId) {
+        return postService.getPosts(email, categoryId);
     }
 
 }
