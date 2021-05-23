@@ -14,13 +14,13 @@ public class FileController {
 
     private final PostService postService;
 
-    @GetMapping
-    public byte[] getImages(String path) throws IOException {
+    @GetMapping("/{path}")
+    public byte[] getImages(@PathVariable String path) throws IOException {
         return postService.getImages(path);
     }
 
-    @DeleteMapping
-    public void deleteFile(Long id) {
+    @DeleteMapping("/{id}")
+    public void deleteFile(@PathVariable Long id) {
         postService.deleteFile(id);
     }
 

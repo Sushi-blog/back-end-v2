@@ -28,7 +28,7 @@ public class PostController {
 
     @PutMapping("/details")
     @ResponseStatus(HttpStatus.NO_CONTENT)
-    public void updatePost(@RequestParam long id,
+    public void updatePost(@RequestParam Long id,
                            @RequestBody PostRequest request,
                            @RequestParam(required = false) MultipartFile file) throws IOException {
         postService.updatePost(id, request, file);
