@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 
 @RequiredArgsConstructor
-@RequestMapping("/sushi/account")
+@RequestMapping("/account")
 @RestController
 public class AccountController {
 

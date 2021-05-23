@@ -5,6 +5,9 @@ server:
 
 # jdbc:mysql://{host}:{port}/{db_name}
 spring:
+  mvc:
+    servlet:
+      path: /sushi
   datasource:
     url: jdbc:mysql://${DB_URL}:3306/${DB_NAME}?characterEncoding=UTF-8&serverTimezone=Asia/Seoul&allowPublicKeyRetrieval=true
     driver-class-name: com.mysql.cj.jdbc.Driver

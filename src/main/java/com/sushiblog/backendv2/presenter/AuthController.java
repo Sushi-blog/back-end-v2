@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
 
-@RequestMapping("/sushi/auth")
+@RequestMapping("/auth")
 @RequiredArgsConstructor
 @RestController
 public class AuthController {

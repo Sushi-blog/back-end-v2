@@ -12,7 +12,7 @@ import org.springframework.web.multipart.MultipartFile;
 import javax.validation.Valid;
 import java.io.IOException;
 
-@RequestMapping("/sushi/blog")
+@RequestMapping("/blog")
 @RequiredArgsConstructor
 @RestController
 public class PostController {
