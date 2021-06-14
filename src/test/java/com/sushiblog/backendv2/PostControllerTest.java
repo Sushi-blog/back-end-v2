@@ -77,7 +77,7 @@ public class PostControllerTest {
                 .categoryId(category.getId())
                 .build();
 
-        mvc.perform(post("/sushi/blog")
+        mvc.perform(post("/blog")
                 .content(new ObjectMapper().writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isCreated());
@@ -91,7 +91,7 @@ public class PostControllerTest {
                 .categoryId(category.getId())
                 .build();
 
-        mvc.perform(post("/sushi/blog")
+        mvc.perform(post("/blog")
                 .content(new ObjectMapper().writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
                 .andExpect(status().isUnauthorized());
@@ -106,7 +106,7 @@ public class PostControllerTest {
                 .categoryId(category.getId())
                 .build();
 
-        mvc.perform(post("/sushi/blog")
+        mvc.perform(post("/blog")
                 .content(new ObjectMapper().writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON_VALUE)).andDo(print())
                 .andExpect(status().isUnauthorized());
@@ -121,7 +121,7 @@ public class PostControllerTest {
                 .categoryId(category.getId())
                 .build();
 
-        mvc.perform(put("/sushi/blog/details")
+        mvc.perform(put("/blog/details")
                 .param("id",post.getId().toString())
                 .content(new ObjectMapper().writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -137,7 +137,7 @@ public class PostControllerTest {
                 .categoryId(category.getId())
                 .build();
 
-        mvc.perform(delete("/sushi/blog")
+        mvc.perform(delete("/blog")
                 .param("id",post.getId().toString())
                 .content(new ObjectMapper().writeValueAsString(request))
                 .contentType(MediaType.APPLICATION_JSON_VALUE))
@@ -148,7 +148,7 @@ public class PostControllerTest {
     public void 게시글목록보기() throws Exception {
         User user = userRepository.findById("201413lsy@dsm.hs.kr").orElseThrow(UserNotFoundException::new);
 
-        mvc.perform(get("/sushi/blog/"+user.getEmail())
+        mvc.perform(get("/blog/"+user.getEmail())
                 .param("category-id",category.getId().toString()))
                 .andExpect(status().isOk()).andDo(print());
     }
@@ -157,7 +157,7 @@ public class PostControllerTest {
     public void 게시글상세보기() throws Exception {
         User user = userRepository.findById("201413lsy@dsm.hs.kr").orElseThrow(UserNotFoundException::new);
 
-        mvc.perform(get("/sushi/blog/details")
+        mvc.perform(get("/blog/details")
                 .param("id",post.getId().toString())).andDo(print())
                 .andExpect(status().isOk()).andDo(print());
     }
